@@ -35,10 +35,8 @@ public class Main {
             return;
         }
 
-        //TexturedModel tmodel = new TexturedModel(model, new ModelTexture(loader.loadTexture("bark")));
         List<TexturedModel> texturedModels = loadTextures(rawModels, loader);
 
-//        Entity entity = new Entity(tmodel, new Vector3f(0, 0, -50), 0, 0, 0, 1);
         Entity entity = new Entity(texturedModels, new Vector3f(0, -15, -60), 0, 0, 0, 1);
         Light light = new Light(new Vector3f(0, 10, -20), new Vector3f(1, 1, 1));
 
@@ -52,8 +50,6 @@ public class Main {
             shader.start();
             shader.loadLight(light);
             shader.loadViewMatrix(camera);
-
-//            renderer.render(entity, shader);
 
             for (TexturedModel model : entity.getModels())
                 renderer.render(entity, model, shader);
@@ -75,13 +71,10 @@ public class Main {
             if (rawModel.getName().startsWith("tree")){
                 texture = "bark";
             } else if (rawModel.getName().startsWith("leaves")) {
-//                texture = "leaf";
-                    texture = "leaf1";
+                texture = "leaf";
             } else { //plan (and envelop?!).
                 texture = "grass";
             }
-
-
 
             ModelTexture mt = new ModelTexture(loader.loadTexture(texture));
             TexturedModel model = new TexturedModel(rawModel, mt);
