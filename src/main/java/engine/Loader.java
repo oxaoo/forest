@@ -35,6 +35,7 @@ public class Loader {
         org.newdawn.slick.opengl.Texture texture = null;
         try {
             texture = TextureLoader.getTexture("JPG", new FileInputStream("src/main/resources/model/" + fileName + ".jpg"));
+//            texture = TextureLoader.getTexture("PNG", new FileInputStream("src/main/resources/model/" + fileName + ".png"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

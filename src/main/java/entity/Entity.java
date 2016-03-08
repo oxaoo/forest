@@ -1,6 +1,7 @@
 package entity;
 
 import model.TexturedModel;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -42,6 +43,17 @@ public class Entity {
         this.rotX += dx;
         this.rotY += dy;
         this.rotZ += dz;
+    }
+
+    public void move(){
+        if (Keyboard.isKeyDown(Keyboard.KEY_UP))
+            this.rotZ-= 0.05f;
+        if (Keyboard.isKeyDown(Keyboard.KEY_DOWN))
+            this.rotZ += 0.05f;
+        if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT))
+            this.rotX += 0.05f;
+        if (Keyboard.isKeyDown(Keyboard.KEY_LEFT))
+            this.rotX -= 0.05f;
     }
 
     public TexturedModel getModel() {
