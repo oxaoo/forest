@@ -24,9 +24,9 @@ public class Renderer {
     }
 
     public void prepare() {
-        //GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
-        GL11.glClearColor(.5F, .5F, .5F, 1);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+//        GL11.glClearColor(.5F, .9F, .9F, 1);
     }
 
     public void render(Entity entity, StaticShader shader) {
@@ -61,7 +61,7 @@ public class Renderer {
         projectionMatrix.m11 = y_scale;
         projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustrum_length);
         projectionMatrix.m23 = -1;
-        projectionMatrix.m32= -((2 * NEAR_PLANE * FAR_PLANE) / frustrum_length);
+        projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustrum_length);
         projectionMatrix.m33 = 0;
     }
 }

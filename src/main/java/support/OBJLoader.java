@@ -28,8 +28,7 @@ public class OBJLoader {
 
         String line = br.readLine();
         String[] lineArgs;
-        while (line != null) {
-//            line = br.readLine();
+        do {
             lineArgs = line.split(" ");
             if (lineArgs[0].equals("v"))
                 vertices.add(new Vector3f(
@@ -45,36 +44,17 @@ public class OBJLoader {
                         Float.parseFloat(lineArgs[1]),
                         Float.parseFloat(lineArgs[2]),
                         Float.parseFloat(lineArgs[3])));
-            else if (lineArgs[0].equals("f")) {
-                /*textureArr = new float[vertices.size() * 2];
-                normalsArr = new float[vertices.size() * 3];
-                break;*/
+            else if (lineArgs[0].equals("f"))
                 faces.add(line);
-            }
+
             line = br.readLine();
-        }
+        } while (line != null);
 
         textureArr = new float[vertices.size() * 2];
         normalsArr = new float[vertices.size() * 3];
 
-        /*do {
-            if (!lineArgs[0].equals("f")) {
-                line = br.readLine();
-                lineArgs = line.split(" ");
-                continue;
-            }
-            String[] vertex1 = lineArgs[1].split("/");
-            String[] vertex2 = lineArgs[2].split("/");
-            String[] vertex3 = lineArgs[3].split("/");
 
-            processVertex(vertex1, indices, textures, normals, textureArr, normalsArr);
-            processVertex(vertex2, indices, textures, normals, textureArr, normalsArr);
-            processVertex(vertex3, indices, textures, normals, textureArr, normalsArr);
-
-            line = br.readLine();
-        } while (line != null);*/
-
-        for (String face : faces){
+        for (String face : faces) {
             lineArgs = face.split(" ");
 
             String[] vertex1 = lineArgs[1].split("/");

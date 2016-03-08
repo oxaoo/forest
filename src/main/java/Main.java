@@ -26,6 +26,9 @@ public class Main {
             model = OBJLoader.loadObjModel("forest", loader);
         } catch (IOException e) {
             System.err.println("Error while load object model: [" + e.toString() + "]");
+            shader.cleanUp();
+            loader.cleanUp();
+            DisplayManager.closeDisplay();
             return;
         }
 
