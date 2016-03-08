@@ -99,7 +99,7 @@ public class Main {
                 texture = "bark";
             } else if (rawModel.getName().startsWith("leaves")) {
 //                texture = "leaf";
-                    texture = "leaf";
+                    texture = "leaf1";
             } else { //plan (and envelop?!).
                 texture = "grass";
             }
@@ -108,7 +108,7 @@ public class Main {
 
             ModelTexture mt = new ModelTexture(loader.loadTexture(texture));
 
-            if (!texture.equals("leaf")) {
+            if (!texture.equals("leaf1")) {
                 mt.setShineDamper(5);
                 mt.setReflectivity(0.1f);
             }
