@@ -5,9 +5,12 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
+import java.util.List;
+
 public class Entity {
 
-    private TexturedModel model;
+    //private TexturedModel model;
+    private List<TexturedModel> models;
     private Vector3f position;
     private float rotX,rotY,rotZ;
     private float scale;
@@ -24,8 +27,8 @@ public class Entity {
         this.sprite = sprite;
     }
 
-    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
-        this.model = model;
+    public Entity(List<TexturedModel> models, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+        this.models = models;
         this.position = position;
         this.rotX = rotX;
         this.rotY = rotY;
@@ -56,12 +59,12 @@ public class Entity {
             this.rotX -= 0.05f;
     }
 
-    public TexturedModel getModel() {
-        return model;
+    public List<TexturedModel> getModels() {
+        return models;
     }
 
-    public void setModel(TexturedModel model) {
-        this.model = model;
+    public void setModels(List<TexturedModel> model) {
+        this.models = models;
     }
 
     public Vector3f getPosition() {

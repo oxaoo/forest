@@ -10,9 +10,9 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import shader.StaticShader;
 import support.OBJLoader;
-import support.OBJLoader2;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -23,13 +23,9 @@ public class Main {
         StaticShader shader = new StaticShader();
         Renderer renderer = new Renderer(shader);
 
-        RawModel model = null;
+        List<RawModel> rawModels = new ArrayList<RawModel>();
         try {
-            //model = OBJLoader.loadObjModel("forest", loader);
-            List<RawModel> list = OBJLoader.loadObjModels("forest", loader);
-            model = list.get(2);
-//            OBJLoader2 ol = new OBJLoader2();
-//            ol.loadObjModels("forest", loader);
+            rawModels = OBJLoader.loadObjModels("forest", loader);
         } catch (IOException e) {
             System.err.println("Error while load object model: [" + e.toString() + "]");
             shader.cleanUp();
@@ -38,20 +34,27 @@ public class Main {
             return;
         }
 
-        TexturedModel tmodel = new TexturedModel(model, new ModelTexture(loader.loadTexture("bark")));
+        //TexturedModel tmodel = new TexturedModel(model, new ModelTexture(loader.loadTexture("bark")));
+        List<TexturedModel> texturedModels = loadTextures(rawModels, loader);
 
-        Entity entity = new Entity(tmodel, new Vector3f(0, 0, -50), 0, 0, 0, 1);
+//        Entity entity = new Entity(tmodel, new Vector3f(0, 0, -50), 0, 0, 0, 1);
+        Entity entity = new Entity(texturedModels, new Vector3f(0, 0, -50), 0, 0, 0, 1);
 
         Camera camera = new Camera();
 
         while(!Display.isCloseRequested()) {
-            entity.increaseRotation(0, 0.1f, 0);
+//            entity.increaseRotation(0, 0.1f, 0);
             entity.move();
             camera.move();
             renderer.prepare();
             shader.start();
             shader.loadViewMatrix(camera);
-            renderer.render(entity, shader);
+
+//            renderer.render(entity, shader);
+
+            for (TexturedModel model : entity.getModels())
+                renderer.render(entity, model, shader);
+
             shader.stop();
             DisplayManager.updateDisplay();
         }
@@ -60,5 +63,48 @@ public class Main {
         loader.cleanUp();
         DisplayManager.closeDisplay();
 
+    }
+
+    /*private static List<TexturedModel> loadTextures(List<RawModel> rawModels, Loader loader){
+
+        ModelTexture treeTexture = new ModelTexture(loader.loadTexture("bark1"));
+        ModelTexture leafTexture = new ModelTexture(loader.loadTexture("leaf1"));
+        ModelTexture grassTexture = new ModelTexture(loader.loadTexture("grass1"));
+
+        ModelTexture modelTexture = grassTexture;
+
+        List<TexturedModel> texturedModels = new ArrayList<TexturedModel>();
+        for (RawModel rawModel : rawModels){
+            if (rawModel.getName().startsWith("tree")){
+                modelTexture = treeTexture;
+            } else if (rawModel.getName().startsWith("leaves")) {
+                modelTexture = leafTexture;
+            }
+
+            TexturedModel model = new TexturedModel(rawModel, modelTexture);
+            texturedModels.add(model);
+        }
+
+        return texturedModels;
+    }*/
+
+    private static List<TexturedModel> loadTextures(List<RawModel> rawModels, Loader loader){
+        List<TexturedModel> texturedModels = new ArrayList<TexturedModel>();
+        for (RawModel rawModel : rawModels){
+            String texture;
+            if (rawModel.getName().startsWith("tree")){
+                texture = "bark1";
+            } else if (rawModel.getName().startsWith("leaves")) {
+//                texture = "leaf";
+                    texture = "leaf1";
+            } else { //plan (and envelop?!).
+                texture = "grass1";
+            }
+
+            TexturedModel model = new TexturedModel(rawModel, new ModelTexture(loader.loadTexture(texture)));
+            texturedModels.add(model);
+        }
+
+        return texturedModels;
     }
 }

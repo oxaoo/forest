@@ -22,20 +22,20 @@ public class Loader {
     private List<Integer> vbos = new ArrayList<Integer>();
     private List<Integer> textures = new ArrayList<Integer>();
 
-    public RawModel loadToVAO(float[] positions, float[] textureCoords, int[] indices) {
+    public RawModel loadToVAO(float[] positions, float[] textureCoords, int[] indices, String name) {
         int vaoID = createVAO();
         bindIndicesBuffer(indices);
         storeDataInAttributeList(0, 3, positions);
         storeDataInAttributeList(1, 2, textureCoords);
         unbindVAO();
-        return new RawModel(vaoID, indices.length);
+        return new RawModel(vaoID, indices.length, name);
     }
 
     public int loadTexture(String fileName) {
         org.newdawn.slick.opengl.Texture texture = null;
         try {
-            texture = TextureLoader.getTexture("JPG", new FileInputStream("src/main/resources/model/" + fileName + ".jpg"));
-//            texture = TextureLoader.getTexture("PNG", new FileInputStream("src/main/resources/model/" + fileName + ".png"));
+//            texture = TextureLoader.getTexture("JPG", new FileInputStream("src/main/resources/model/" + fileName + ".jpg"));
+            texture = TextureLoader.getTexture("PNG", new FileInputStream("src/main/resources/model/" + fileName + ".png"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

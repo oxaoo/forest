@@ -12,7 +12,7 @@ import java.util.List;
 
 public class OBJLoader {
 
-    private static String nameCurObj = "";
+    private static String nameNextModel = "";
     private static List<Vector3f> vertices = new ArrayList<Vector3f>();
     private static List<Vector2f> textures = new ArrayList<Vector2f>();
     private static List<Vector3f> normals = new ArrayList<Vector3f>();
@@ -39,7 +39,7 @@ public class OBJLoader {
         String line = br.readLine();
         while (line != null && !line.startsWith("o"))
             line = br.readLine();
-        if (line != null) nameCurObj = line.split(" ")[1];
+        if (line != null) nameNextModel = line.split(" ")[1];
     }
 
 
@@ -55,6 +55,7 @@ public class OBJLoader {
 //        List<Vector3f> normals = new ArrayList<Vector3f>();
         List<Integer> indices = new ArrayList<Integer>();
 
+        String nameModel = nameNextModel;
 
         List<String> faces = new ArrayList<String>();
 
@@ -84,7 +85,7 @@ public class OBJLoader {
             else if (lineArgs[0].equals("f"))
                 faces.add(line);
             else if (lineArgs[0].equals("o")) {
-                nameCurObj = lineArgs[1];
+                nameNextModel = lineArgs[1];
                 break;
             }
 
@@ -128,10 +129,10 @@ public class OBJLoader {
         for (int i = 0; i < indices.size(); i++)
             indicesArr[i] = indices.get(i);
 
-        return loader.loadToVAO(verticesArr, textureArr, indicesArr);
+        return loader.loadToVAO(verticesArr, textureArr, indicesArr, nameModel);
     }
 
-    public static RawModel loadObjModel(String filename, Loader loader) throws IOException {
+    /*public static RawModel loadObjModel(String filename, Loader loader) throws IOException {
         FileReader fileReader = null;
         fileReader = new FileReader(new File("src/main/resources/model/" + filename + ".obj"));
         BufferedReader br = new BufferedReader(fileReader);
@@ -206,7 +207,7 @@ public class OBJLoader {
             indicesArr[i] = indices.get(i);
 
         return loader.loadToVAO(verticesArr, textureArr, indicesArr);
-    }
+    }*/
 
     private static void processVertex(String[] vertexData,
                                       List<Integer> indices,
