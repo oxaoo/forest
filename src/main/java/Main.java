@@ -93,12 +93,12 @@ public class Main {
         for (RawModel rawModel : rawModels){
             String texture;
             if (rawModel.getName().startsWith("tree")){
-                texture = "bark1";
+                texture = "bark";
             } else if (rawModel.getName().startsWith("leaves")) {
 //                texture = "leaf";
-                    texture = "leaf1";
+                    texture = "leaf";
             } else { //plan (and envelop?!).
-                texture = "grass1";
+                texture = "grass";
             }
 
             TexturedModel model = new TexturedModel(rawModel, new ModelTexture(loader.loadTexture(texture)));
