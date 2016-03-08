@@ -3,6 +3,7 @@ import engine.Loader;
 import engine.Renderer;
 import entity.Camera;
 import entity.Entity;
+import entity.Light;
 import model.ModelTexture;
 import model.RawModel;
 import model.TexturedModel;
@@ -38,16 +39,18 @@ public class Main {
         List<TexturedModel> texturedModels = loadTextures(rawModels, loader);
 
 //        Entity entity = new Entity(tmodel, new Vector3f(0, 0, -50), 0, 0, 0, 1);
-        Entity entity = new Entity(texturedModels, new Vector3f(0, 0, -50), 0, 0, 0, 1);
+        Entity entity = new Entity(texturedModels, new Vector3f(0, -10, -50), 0, 0, 0, 1);
+        Light light = new Light(new Vector3f(-10, 10, -50), new Vector3f(1, 1, 1));
 
         Camera camera = new Camera();
 
         while(!Display.isCloseRequested()) {
-//            entity.increaseRotation(0, 0.1f, 0);
+            entity.increaseRotation(0, 0.25f, 0);
             entity.move();
             camera.move();
             renderer.prepare();
             shader.start();
+            shader.loadLigth(light);
             shader.loadViewMatrix(camera);
 
 //            renderer.render(entity, shader);
@@ -101,7 +104,22 @@ public class Main {
                 texture = "grass";
             }
 
-            TexturedModel model = new TexturedModel(rawModel, new ModelTexture(loader.loadTexture(texture)));
+
+
+            ModelTexture mt = new ModelTexture(loader.loadTexture(texture));
+
+            if (!texture.equals("leaf")) {
+                mt.setShineDamper(5);
+                mt.setReflectivity(0.1f);
+            }
+
+            TexturedModel model = new TexturedModel(rawModel, mt);
+
+
+            /*ModelTexture mt = model.getTexture();
+            mt.setShineDamper(10);
+            mt.setReflectivity(1);*/
+
             texturedModels.add(model);
         }
 

@@ -6,7 +6,7 @@ import org.lwjgl.opengl.*;
 public class DisplayManager {
 
     private static final int HEIGHT = 800;
-    private static final int WIDTH = 800;
+    private static final int WIDTH = 1000;
 
     private static final int FPS_CAP = 120;
 

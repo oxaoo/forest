@@ -129,7 +129,7 @@ public class OBJLoader {
         for (int i = 0; i < indices.size(); i++)
             indicesArr[i] = indices.get(i);
 
-        return loader.loadToVAO(verticesArr, textureArr, indicesArr, nameModel);
+        return loader.loadToVAO(verticesArr, textureArr, normalsArr, indicesArr, nameModel);
     }
 
     /*public static RawModel loadObjModel(String filename, Loader loader) throws IOException {

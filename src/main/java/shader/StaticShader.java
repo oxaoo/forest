@@ -1,6 +1,7 @@
 package shader;
 
 import entity.Camera;
+import entity.Light;
 import org.lwjgl.util.vector.Matrix4f;
 import support.Maths;
 
@@ -12,7 +13,10 @@ public class StaticShader extends ShaderProgram {
     private int location_transformationMatrix;
     private int location_projectionMatrix;
     private int location_viewMatrix;
-    private int location_sprite;
+    private int location_lightPosition;
+    private int location_lightColour;
+    private int location_shineDamper;
+    private int location_reflectivity;
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -22,6 +26,7 @@ public class StaticShader extends ShaderProgram {
     protected void bindAttributes() {
         super.bindAttribute(0, "position");
         super.bindAttribute(1, "textureCoords");
+        super.bindAttribute(2, "normal");
     }
 
     @Override
@@ -29,15 +34,26 @@ public class StaticShader extends ShaderProgram {
         location_transformationMatrix = super.getUniformLocation("transformationMatrix");
         location_projectionMatrix = super.getUniformLocation("projectionMatrix");
         location_viewMatrix = super.getUniformLocation("viewMatrix");
-        location_sprite = super.getUniformLocation("sprite");
+        location_lightPosition = super.getUniformLocation("lightPosition");
+        location_lightColour = super.getUniformLocation("lightColour");
+        location_shineDamper = super.getUniformLocation("shineDamper");
+        location_reflectivity = super.getUniformLocation("reflectivity");
+    }
+
+    public void loadShineVarialbes(float damper, float reflectivity){
+        super.loadFloat(location_shineDamper, damper);
+        super.loadFloat(location_reflectivity, reflectivity);
     }
 
     public void loadTransformationMatrix(Matrix4f matrix) {
         super.loadMatrix(location_transformationMatrix, matrix);
     }
-    public void loadSprite(int sprite) {
-        super.loadInt(location_sprite, sprite);
+
+    public void loadLigth(Light light){
+        super.loadVector(location_lightPosition, light.getPosition());
+        super.loadVector(location_lightColour, light.getColor());
     }
+
     public void loadViewMatrix(Camera camera) {
         Matrix4f viewMatrix = Maths.createViewMatrix(camera);
         super.loadMatrix(location_viewMatrix, viewMatrix);

@@ -1,6 +1,7 @@
 package engine;
 
 import entity.Entity;
+import model.ModelTexture;
 import model.RawModel;
 import model.TexturedModel;
 import org.lwjgl.opengl.*;
@@ -42,21 +43,23 @@ public class Renderer {
 
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
+        GL20.glEnableVertexAttribArray(2);
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
         shader.loadTransformationMatrix(transformationMatrix);
-        shader.loadSprite(entity.getSprite());
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
 
+        ModelTexture texture = model.getTexture();
+        shader.loadShineVarialbes(texture.getShineDamper(), texture.getReflectivity());
+
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getId());
 
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
-
         GL11.glDrawElements(GL11.GL_TRIANGLES, rawModel.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
-
 
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
+        GL20.glDisableVertexAttribArray(2);
         GL30.glBindVertexArray(0);
     }
 
