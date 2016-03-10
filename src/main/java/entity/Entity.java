@@ -8,8 +8,6 @@ import org.lwjgl.util.vector.Vector3f;
 import java.util.List;
 
 public class Entity {
-
-    //private TexturedModel model;
     private List<TexturedModel> models;
     private Vector3f position;
     private float rotX,rotY,rotZ;
@@ -59,6 +57,7 @@ public class Entity {
             this.rotX -= 0.05f;
     }
 
+    //setters and getters.
     public List<TexturedModel> getModels() {
         return models;
     }
